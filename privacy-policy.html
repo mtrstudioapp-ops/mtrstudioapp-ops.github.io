@@ -1,0 +1,254 @@
+<title>Neon Stack Privacy</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap');
+
+  :root {
+    --bg: #FBFAFE;
+    --surface: #FFFFFF;
+    --surface-2: #F3EFFC;
+    --text: #241B3D;
+    --text-muted: #675E82;
+    --border: #E4DEF2;
+    --accent: #7C3AED;
+    --accent-ink: #FFFFFF;
+    --cyan: #0E8FA8;
+    --shadow: 0 1px 2px rgba(36,27,61,0.04), 0 8px 24px rgba(36,27,61,0.06);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0B0620;
+      --surface: #150B2E;
+      --surface-2: #1D1140;
+      --text: #EDE7FA;
+      --text-muted: #A79BC9;
+      --border: #2C1E52;
+      --accent: #A78BFA;
+      --accent-ink: #1A0B3D;
+      --cyan: #22D3EE;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 12px 32px rgba(0,0,0,0.45);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0B0620;
+    --surface: #150B2E;
+    --surface-2: #1D1140;
+    --text: #EDE7FA;
+    --text-muted: #A79BC9;
+    --border: #2C1E52;
+    --accent: #A78BFA;
+    --accent-ink: #1A0B3D;
+    --cyan: #22D3EE;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 12px 32px rgba(0,0,0,0.45);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+    font-size: 17px;
+    line-height: 1.7;
+    padding: 0 20px;
+  }
+  .wrap { max-width: 680px; margin: 0 auto; padding-block: 48px 80px; }
+
+  .brand { display: flex; align-items: center; gap: 12px; margin-bottom: 40px; }
+  .brand svg { flex: none; }
+  .brand-name {
+    font-family: 'Chakra Petch', ui-sans-serif, system-ui, sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text);
+  }
+  .brand-tag {
+    font-family: 'Chakra Petch', ui-sans-serif, system-ui, sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    border-left: 1px solid var(--border);
+    padding-left: 12px;
+  }
+
+  h1 {
+    font-family: 'Chakra Petch', ui-sans-serif, system-ui, sans-serif;
+    font-weight: 700;
+    font-size: clamp(28px, 6vw, 38px);
+    letter-spacing: -0.01em;
+    margin: 0 0 8px;
+    text-wrap: balance;
+  }
+  .updated {
+    font-family: 'Chakra Petch', ui-sans-serif, system-ui, sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 0 0 36px;
+  }
+
+  nav.toc {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 16px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 44px;
+  }
+  nav.toc a {
+    font-family: 'Chakra Petch', ui-sans-serif, system-ui, sans-serif;
+    font-size: 12.5px;
+    letter-spacing: 0.02em;
+    color: var(--text);
+    text-decoration: none;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 6px 13px;
+    transition: border-color 0.15s ease, color 0.15s ease;
+  }
+  nav.toc a:hover { border-color: var(--accent); color: var(--accent); }
+
+  section { margin-bottom: 40px; scroll-margin-top: 24px; }
+  h2 {
+    font-family: 'Chakra Petch', ui-sans-serif, system-ui, sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    color: var(--accent);
+    margin: 0 0 14px;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+  h2 .num {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+  }
+  p { margin: 0 0 14px; color: var(--text); max-width: 65ch; }
+  p.muted { color: var(--text-muted); font-size: 15px; }
+  ul { margin: 0 0 14px; padding-left: 22px; max-width: 65ch; }
+  li { margin-bottom: 6px; }
+  a { color: var(--cyan); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+  strong { color: var(--text); }
+
+  footer {
+    margin-top: 56px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  footer .contact {
+    font-family: 'Chakra Petch', ui-sans-serif, system-ui, sans-serif;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  footer .contact a { color: var(--text); }
+  footer .mark {
+    font-family: 'Chakra Petch', ui-sans-serif, system-ui, sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  @media (max-width: 480px) {
+    body { font-size: 16px; }
+    nav.toc { gap: 6px; }
+  }
+</style>
+
+<div class="wrap">
+  <div class="brand">
+    <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+      <rect x="1" y="13" width="11" height="11" rx="2.5" fill="#22D3EE"/>
+      <rect x="14" y="13" width="11" height="11" rx="2.5" fill="#F472B6"/>
+      <rect x="7.5" y="1" width="11" height="11" rx="2.5" fill="#A78BFA"/>
+    </svg>
+    <span class="brand-name">Neon Stack</span>
+    <span class="brand-tag">Privacy Policy</span>
+  </div>
+
+  <h1>Privacy Policy</h1>
+  <p class="updated">Last updated September 11, 2026</p>
+
+  <nav class="toc" aria-label="Sections">
+    <a href="#collect">Information We Collect</a>
+    <a href="#ads">Advertising</a>
+    <a href="#children">Children's Privacy</a>
+    <a href="#sharing">Data Sharing</a>
+    <a href="#choices">Your Choices</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <p class="muted">This Privacy Policy explains how Neon Stack ("the App", "we")
+  handles information when you use our mobile game.</p>
+
+  <section id="collect">
+    <h2><span class="num">01</span> Information We Collect</h2>
+    <p>Neon Stack itself does not require an account and does not collect your
+    name, email, or any personally identifiable information. Your game progress
+    — score, coins, level, unlocked items, settings — is stored locally on your
+    device only.</p>
+  </section>
+
+  <section id="ads">
+    <h2><span class="num">02</span> Advertising</h2>
+    <p>The App displays ads served by Google AdMob. To serve and measure ads,
+    Google and its partners may collect and use data such as your advertising
+    ID, device information, IP address, and general location, and may use this
+    data to show you more relevant ads. This processing is governed by
+    <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener">Google's Partner Sites Policy</a>
+    and <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's Privacy Policy</a>.</p>
+    <p>Where required by law — for example in the EEA and UK — we ask for your
+    consent to personalized advertising via a consent form before any ads are
+    shown, and you can change your choice at any time from the App's Settings
+    screen.</p>
+  </section>
+
+  <section id="children">
+    <h2><span class="num">03</span> Children's Privacy</h2>
+    <p>Neon Stack is not directed at children under 13. We do not knowingly
+    collect personal information from children. Where the App is configured
+    for a child-directed audience on a specific store, ads are served in a
+    non-personalized, child-appropriate mode in accordance with applicable law
+    (e.g. COPPA).</p>
+  </section>
+
+  <section id="sharing">
+    <h2><span class="num">04</span> Data Sharing</h2>
+    <p>We do not sell your data. Data collected by our advertising partners
+    (Google AdMob and its mediation partners) is handled under their own
+    respective privacy policies, linked above.</p>
+  </section>
+
+  <section id="choices">
+    <h2><span class="num">05</span> Your Choices</h2>
+    <ul>
+      <li>Reset your ad personalization consent any time from Settings inside the App.</li>
+      <li>Opt out of personalized advertising via your device's OS-level ad settings (Android: Settings → Google → Ads).</li>
+      <li>Uninstalling the App removes all locally stored game data from your device.</li>
+    </ul>
+  </section>
+
+  <section id="contact">
+    <h2><span class="num">06</span> Contact</h2>
+    <p>Questions about this Privacy Policy can be sent to
+    <strong>mtrsiddiqui394@gmail.com</strong>.</p>
+  </section>
+
+  <footer>
+    <span class="mark">© 2026 Neon Stack</span>
+    <span class="contact">Contact — <a href="mailto:mtrsiddiqui394@gmail.com">mtrsiddiqui394@gmail.com</a></span>
+  </footer>
+</div>
